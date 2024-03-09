@@ -30,7 +30,6 @@ function App() {
     setLoading(true);
     setS(true);
     setTimeout(() => {
-      
       setT1(true);
     }, 3000);
     setTimeout(() => {
@@ -70,7 +69,7 @@ function App() {
         </Form>
         {/* <Spinner animation="border" size="sm" />
         <TickMark style={{ width: '20px', height: '20px' }}/> */}
-        {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 1</span>
+        {(loading && t1) ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 1</span>
         {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 2</span>
         {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 3</span>
 
