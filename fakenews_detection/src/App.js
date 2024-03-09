@@ -1,6 +1,6 @@
 import './App.css';
-import { Button, Row, Form, Container, Spinner } from 'react-bootstrap';
-import { useState } from 'react';
+import { Button, Row, Form, Container, Spinner, Col } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import { ReactComponent as TickMark } from './assets/tick.svg';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,30 +24,45 @@ function App() {
     });
   };
 
-  const handleSubmit = (e) => { 
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     console.log(formData);
-    setLoading(true);
-    setS(true);
-    setTimeout(() => {
-      setT1(true);
-    }, 3000);
-    setTimeout(() => {
-      setT2(true);
-    }, 6000);
-    setTimeout(() => {
-      setT3(true);
-      setLoading(false);
-    }, 9000);
   }
 
 
   //Testing the spinner and tick mark
   const [loading, setLoading] = useState(false);
-  const [t1, setT1] = useState(false);  
-  const [t2, setT2] = useState(false);
-  const [t3, setT3] = useState(false);
-  const [s,setS] = useState(false);
+  const [tasks, setTasks] = useState([
+    { id: 1, name: 'Task 1', completed: false },
+    { id: 2, name: 'Task 2', completed: false },
+    { id: 3, name: 'Task 3', completed: false },
+  ]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const startNextTask = async () => {
+    setLoading(true);
+
+    // Simulate asynchronous task completion (replace this with actual task logic)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Update the current task to mark it as completed
+    setTasks(prevTasks => {
+      const updatedTasks = [...prevTasks];
+      updatedTasks[currentIndex] = { ...updatedTasks[currentIndex], completed: true };
+      return updatedTasks;
+    });
+
+    // Move to the next task
+    setCurrentIndex(prevIndex => prevIndex + 1);
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (currentIndex < tasks.length) {
+      startNextTask();
+    }
+  }, [currentIndex, tasks]);
   
 
 
@@ -69,10 +84,23 @@ function App() {
         </Form>
         {/* <Spinner animation="border" size="sm" />
         <TickMark style={{ width: '20px', height: '20px' }}/> */}
-        {(loading && t1) ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 1</span>
-        {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 2</span>
-        {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 3</span>
-
+        <div>
+          {tasks.map((task, index) => (
+            <div key={task.id}>
+              {index === currentIndex && loading ? (
+                <div>Loading...</div>
+              ) : (
+                <div>
+                  {task.completed ? '✔️' : '◻️'} {task.name}
+                </div>
+              )}
+            </div>
+          ))}
+          {/* {currentIndex < tasks.length && !loading && (
+            <button onClick={startNextTask}>Start Next Task</button>
+          )} */}
+        </div>
+        
         
       </Container>
     </>
