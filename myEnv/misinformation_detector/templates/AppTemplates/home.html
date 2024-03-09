@@ -13,7 +13,9 @@
             <textarea name="message" placeholder="paste your message where" cols="30" rows="10"></textarea>
             <input type="submit" value="Submit">
         </div>
-        <h3>Author: {{author}}</h3>
+        {% if author != " " %}
+            <h2>Author: {{ author }}</h2>
+        {% endif %}
         {% if tone == "Positive" %}
             <h2>Tone: </h2><h2 style="color: green;">Positive</h2>
         {% elif tone == "Negative" %}
