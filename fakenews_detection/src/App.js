@@ -27,7 +27,28 @@ function App() {
   const handleSubmit = (e) => { 
     e.preventDefault();
     console.log(formData);
+    setLoading(true);
+    setS(true);
+    setTimeout(() => {
+      
+      setT1(true);
+    }, 3000);
+    setTimeout(() => {
+      setT2(true);
+    }, 6000);
+    setTimeout(() => {
+      setT3(true);
+      setLoading(false);
+    }, 9000);
   }
+
+
+  //Testing the spinner and tick mark
+  const [loading, setLoading] = useState(false);
+  const [t1, setT1] = useState(false);  
+  const [t2, setT2] = useState(false);
+  const [t3, setT3] = useState(false);
+  const [s,setS] = useState(false);
   
 
 
@@ -49,6 +70,10 @@ function App() {
         </Form>
         {/* <Spinner animation="border" size="sm" />
         <TickMark style={{ width: '20px', height: '20px' }}/> */}
+        {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 1</span>
+        {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 2</span>
+        {loading ? <Spinner animation="border" size="sm" /> : <TickMark style={{ width: '20px', height: '20px' }}/>}<span>Task 3</span>
+
         
       </Container>
     </>
