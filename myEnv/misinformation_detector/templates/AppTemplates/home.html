@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/home" method="post">
+        {% csrf_token %}
+        <div style="display: flex; flex-direction: column;">
+            <input type="text" placeholder="name of the messager" name="author" >
+            <textarea name="message" placeholder="paste your message where" cols="30" rows="10"></textarea>
+            <input type="submit" value="Submit">
+        </div>
+        <h3>Author: {{author}}</h3>
+        {% if tone == "Positive" %}
+            <h2>Tone: </h2><h2 style="color: green;">Positive</h2>
+        {% elif tone == "Negative" %}
+            <h2>Tone: </h2><h2 style="color: red;">Negative</h2>
+        {% elif tone == "Neutral" %}
+            <div><h2>Tone: </h2><h2 style="color: black;">Neutral</h2></div>
+        {% endif %}
+
+    </form>
+</body>
+</html>
