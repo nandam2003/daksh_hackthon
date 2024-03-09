@@ -3,6 +3,7 @@ from django.shortcuts import render
 import nltk
 from . import ml_models as ml
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import pickle
 
 # nltk.download("stopwords")
 # nltk.download("punkt")
@@ -15,6 +16,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 def home(request):
 
     if request.method == "POST":
+        print('POST')
         author = request.POST["author"]
         msg = request.POST["message"]
 
@@ -43,7 +45,17 @@ def home(request):
             tone = "Negative"
         else:
             tone = "Neutral"
-
+        
+        loaded_model = None
+        with open('model.pkl', 'rb') as f:
+            loaded_model = pickle.load(f)
+        
+        result = loaded_model.predict([' '.join(tokens)])[0]
+        if result == 0:
+            print('REAL')
+        else:
+            print('FAKE')
+    
         return render(
             request,
             "AppTemplates/home.html",
